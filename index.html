@@ -765,7 +765,56 @@ window.id = (id) => id;
           <img src="img/_1.jpg" alt="">
         </section>
         <section>
-          <pre><code data-trim>
+          <p>И еще один момент...</p>
+        </section>
+        <section>
+           Зачем нужно?
+          <pre><code data-trim data-noescape>
+@JsonSerializable(nullable: false)
+class Person extends Object with _$PersonSerializerMixin {
+  final String firstName;
+  final String lastName;
+  final DateTime dateOfBirth;
+  Person({this.firstName, this.lastName, this.dateOfBirth});
+  factory Person.fromJson(Map&lt;String, dynamic&gt; json) => _$PersonFromJson(json);
+}
+          </code></pre>
+        </section>
+        <section>
+          <pre><code data-trim data-noescape style="max-height: 80vh; font-size: 3vh">
+part of 'example.dart';
+
+Person _$PersonFromJson(Map&lt;String, dynamic&gt; json) {
+  return new Person(
+      firstName: json['firstName'] as String,
+      lastName: json['lastName'] as String,
+      dateOfBirth: DateTime.parse(json['dateOfBirth'] as String));
+}
+
+abstract class _$PersonSerializerMixin {
+  String get firstName;
+  String get lastName;
+  DateTime get dateOfBirth;
+  Map&lt;String, dynamic&gt; toJson() =&gt; &lt;String, dynamic&gt;{
+        'firstName': firstName,
+        'lastName': lastName,
+        'dateOfBirth': dateOfBirth.toIso8601String()
+      };
+}
+          </code></pre>
+        </section>
+        <section>
+          <p>Если можно</p>
+          <pre><code data-noescape data-trim>
+@JS('JSON.parse')
+external T parse&lt;T&gt;(dynamic input);
+
+Person p = parse&lt;Person&gt;(jsonString);
+          </code></pre>
+        </section>
+        <section>
+          <p>Спасибо! Вопросы?</p>
+          <pre class="fragment"><code data-trim>
           #define TRUE (random()>0.5)
           //счастливой отладки, суки
           </code></pre>
